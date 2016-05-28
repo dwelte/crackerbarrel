@@ -48,7 +48,6 @@
 
 (defn board-line-str
   [board y]
-  (println "brock " y)
   (str (apply str (repeat (- (count board) y 1) " "))
        (apply str (butlast (flatten (map #(vector (if (get-peg board % y) "*" "_") " ")
                                          (range (inc y))))))
@@ -95,5 +94,8 @@
 (defn -main
   []
   (print-board base-board)
-  (println (first (solve-board base-board []))))
+  (let [solution (first (solve-board base-board []))]
+    (println solution)
+    (doseq [step (reductions (fn [p n] (apply apply-move p n)) base-board solution)]
+      (print-board step))))
 
